@@ -126,7 +126,7 @@ const WebcamCapture = () => {
     <div>
       <h4>Camera</h4>
       {webcamActive && !modalIsOpen &&(
-        <div style={{ position: 'relative', width: videoConstraints.width + 'px', height: videoConstraints.height + 'px', marginBottom: '20px' }}>
+        <div style={{ position: 'relative', width: '100%', overflow: 'hidden', paddingTop: '75%', marginBottom: '20px' }}>
           <Webcam
             audio={false}
             ref={webcamRef}
