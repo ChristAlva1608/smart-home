@@ -52,7 +52,6 @@ function Home() {
         period = 'night'
     }
 
-    const [query, setQuery] = useState("");
     const [checkedFan, setCheckedFan] = useState(false)
     const [checkedLight, setCheckedLight] = useState(false)
     const [checkedAlarm, setCheckedAlarm] = useState(false)
@@ -213,12 +212,6 @@ function Home() {
             console.log({data});
         })
     }, [checkedAlarm])
-    useEffect(() => {
-        fetch(`/send_voice?value=${query}`).then(res => res.json()).then(data => {
-            console.log({data});
-        })
-    }, [query])
-
 
     useDataSender(fanValue, 'int', 'fan', fanValue);
     useDataSender(checkedFan, 'bool', 'fan', checkedFan);
@@ -307,7 +300,7 @@ function Home() {
                             }}
                         >
                             <Slider
-                                defaultValue={0}
+                                defaultValue={30}
                                 aria-label="Default"
                                 disabled={!checkedFan}
                                 getAriaValueText={(value) => {
@@ -386,7 +379,7 @@ function Home() {
                     <div className={`${styles.container} ${styles.alarmContainer} ${styles.voice}`}>
                     <h4 style = {{fontSize: '20pt'}}>Voice</h4>
                     <div>
-                        <VoiceRecognition setQuery={setQuery}/>
+                        <VoiceRecognition setCheckedLight={setCheckedLight} setCheckedFan={setCheckedFan}/>
                     </div>
                     {/* <div className={styles.iconContainer} style={{ textAlign: 'center' }}>
                         <PiMicrophone onClick={startSpeechToText} />
