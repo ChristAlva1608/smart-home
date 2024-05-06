@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import useSpeechToText from 'react-hook-speech-to-text';
 import { BsFillMicFill } from "react-icons/bs";
 
-export default function VoiceRecognition( {setQuery} ) {
+export default function VoiceRecognition( {setCheckedLight, setCheckedFan} ) {
   const {
     error,
     interimResult,
@@ -19,13 +19,20 @@ export default function VoiceRecognition( {setQuery} ) {
     }
   });
   useEffect(() => {
-    if (results.includes("bật đèn")) {
-      fetch(`/send_light?value=true&type=bool`)
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(err))
-    }
+    {results.map((result) => {
+      const transcript = result.transcript.toLowerCase(); 
+      if (transcript.includes("bật đèn")) {
+        setCheckedLight(true)
+      } else if (transcript.includes("tắt đèn")) {
+        setCheckedLight(false)
+      } else if (transcript.includes("bật quạt")) {
+        setCheckedFan(true)
+      } else if (transcript.includes("tắt quạt")) {
+        setCheckedFan(false)
+      }
+    })}
   }, [results])
+  
   if (error) return <p>Web Speech API is not available in this browser 🤷‍</p>;
   
   return (
@@ -43,6 +50,7 @@ export default function VoiceRecognition( {setQuery} ) {
       <ul>
         {results.map((result) => (
           <li key={result.timestamp}>{result.transcript}</li>
+
         ))}
         {interimResult && <li>{interimResult}</li>}
       </ul>
