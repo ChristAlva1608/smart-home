@@ -25,7 +25,7 @@ export default function VoiceRecognition( {setQuery} ) {
     .catch(err => console.log(err))
   },[results])
   if (error) return <p>Web Speech API is not available in this browser 🤷‍</p>;
-
+  
   return (
     <div>
       <button
