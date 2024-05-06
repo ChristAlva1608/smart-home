@@ -19,11 +19,13 @@ export default function VoiceRecognition( {setQuery} ) {
     }
   });
   useEffect(() => {
-    fetch(`/send_voice?value=${results}`)
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(err => console.log(err))
-  },[results])
+    if (results.includes("bật đèn")) {
+      fetch(`/send_light?value=true&type=bool`)
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err))
+    }
+  }, [results])
   if (error) return <p>Web Speech API is not available in this browser 🤷‍</p>;
   
   return (
@@ -37,7 +39,6 @@ export default function VoiceRecognition( {setQuery} ) {
         rounded-full w-6 h-6
         `}
       />
-      {/* {isRecording ? "Stop Recording" : "Start Recording"} */}
     </button>
       <ul>
         {results.map((result) => (
